@@ -5,9 +5,14 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  height: 100%;
+}
+.container {
+  height: 100%;
+  background-color: #000000;
 }
 
-.userinfo, .uploader, .tunnel {
+/* .userinfo, .uploader, .tunnel {
   margin-top: 40rpx;
   height: 140rpx;
   width: 100%;
@@ -19,10 +24,11 @@ page {
   flex-direction: row;
   align-items: center;
   transition: all 300ms ease;
-}
+} */
 
 .userinfo {
-  padding-left: 120rpx;
+  /* padding-left: 120rpx;
+  text-align: center; */
 }
 
 .userinfo-avatar {
@@ -35,14 +41,45 @@ page {
 }
 
 .userinfo-block-avatar {
-  width: 100rpx;
-  height: 100rpx;
-  margin: 20rpx;
+  /* display: inline-block; */
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
 }
 
-.userinfo-avatar[size] {
+
+.wrapper {
+  width: 100%;
+  height: 90%;
+  text-align: center;
+}
+
+.img-box {
+  width: 100%;
+  margin-top: 50%;
+  position: relative;
+}
+.start-img {
+  position: absolute;
+  width: 220rpx;
+  height: 180rpx;
+  left: 130rpx;
+}
+.miner-img {
+  width: 280rpx;
+  height: 280rpx;
+  margin-left: 210rpx;
+}
+
+.copyright {
+  margin-bottom: 30rpx;
+  color: #f6f6f6;
+  font-size: 32rpx;
+}
+
+/* .userinfo-avatar[size] {
   width: 100rpx;
 }
 
@@ -158,4 +195,4 @@ page {
   font-size: 24rpx;
   line-height: 36rpx;
   word-break: break-all;
-}
+} */

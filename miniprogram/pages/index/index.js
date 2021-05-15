@@ -37,6 +37,9 @@ Page({
           userInfo: res.userInfo,
           hasUserInfo: true,
         })
+        wx.redirectTo({
+          url: '../gameIndex/index',
+        })
       }
     })
   },
