@@ -25,6 +25,9 @@ Page({
         canIUseGetUserProfile: true,
       })
     }
+    // wx.redirectTo({
+    //   url: '../gameIndex/index',
+    // })
   },
 
   getUserProfile() {

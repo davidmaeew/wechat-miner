@@ -1,5 +1,8 @@
 <!--pages/chooseLib/chooseLib.wxml-->
 <view class="container">
-
+  <image class="background" src="./background.png" mode="cover"></image>
+  <view>
+    
+  </view>
 </view>
 
