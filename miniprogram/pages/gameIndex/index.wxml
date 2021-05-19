@@ -1,8 +1,8 @@
 <!--pages/chooseLib/chooseLib.wxml-->
 <view class="container">
   <image class="background" src="./background.png" mode="cover"></image>
-  <view>
-    
+  <view class="container">
+  <canvas type="2d" id="myCanvas"></canvas>
   </view>
 </view>
 
