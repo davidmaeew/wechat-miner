@@ -20,28 +20,62 @@ Page({
    */
   onLoad: function (options) {
     
+    // 通过 SelectorQuery 获取 Canvas 节点
+    wx.createSelectorQuery()
+      .select('#myCanvas')
+      .fields({
+        node: true,
+        size: true,
+      })
+      .exec(this.init.bind(this))
   },
 
+  init(res) {
+    const width = res[0].width
+    const height = res[0].height
+
+    const canvas = res[0].node
+    const ctx = canvas.getContext('2d')
+
+    const dpr = wx.getSystemInfoSync().pixelRatio
+    canvas.width = width * dpr
+    canvas.height = height * dpr
+    ctx.scale(dpr, dpr)
+    canvas.screenHeight = wx.getSystemInfoSync().windowHeight
+    canvas.screenWidth = wx.getSystemInfoSync().windowWidth
+
+    let main = new Main(ctx, canvas)
+    const renderLoop = () => {
+      main.render(ctx, canvas)      
+
+      main.update()
+      canvas.requestAnimationFrame(renderLoop)
+    }
+    canvas.requestAnimationFrame(renderLoop)
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    * 在页面初次渲染完成后,设置canvas对象为本页面全局变量
    */
   onReady: function () {
     this.initData()
-    this.loadCtx()
     console.log(this.data.ctx)
-    
-    setInterval(() => {
-      console.log("测试", this.data.ctx, this.data.main)
-      if (this.data.ctx != undefined && this.data.main == undefined) {
-        this.setData({
-          main: new Main(this.data.ctx, this)
-        })
-      } else if (this.data.ctx != undefined) {
-        console.log("render")
-        this.data.main.render(this.data.ctx)
+    wx.getSystemInfo({
+      success: function(res) {
+        console.log(res.pixelRatio)
       }
-    }, 1000)
+    })
+    // setInterval(() => {
+    //   console.log("测试", this.data.ctx, this.data.main)
+    //   if (this.data.ctx != undefined && this.data.main == undefined) {
+    //     this.setData({
+    //       main: new Main(this.data.ctx, this)
+    //     })
+    //   } else if (this.data.ctx != undefined) {
+    //     console.log("render")
+    //     this.data.main.render(this.data.ctx)
+    //   }
+    // }, 1000)
 
   },
 
@@ -53,33 +87,7 @@ Page({
       width: wx.getSystemInfoSync().windowWidth,
       height: wx.getSystemInfoSync().windowHeight
     })
-  },
-
-  loadCtx: function() {
-    const query = wx.createSelectorQuery()
-    query.select('#myCanvas')
-      .fields({ node: true, size: true })
-      .exec((res) => {
-        const canvas = res[0].node
-        const ctx = canvas.getContext('2d')
-        this.setData({
-          canvas: canvas,
-          ctx: ctx,
-        })
-
-        // let img = canvas.createImage()
-        // img.src = "head.png"
-        // img.onload = function() {
-        //   console.log("加载完成")
-        //   ctx.drawImage(img, 100, 100, 500, 500)
-        // }
-        // img.onerror = function() {
-        //   console.log("加载失败")
-        // }
-      })
-  },
-
-  
+  }, 
 
   /**
    * 生命周期函数--监听页面显示

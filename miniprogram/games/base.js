@@ -1,16 +1,11 @@
 
 
 export default class Base {
-  constructor(that, src, width, height) {
-    this.that = that
+  constructor(canvas, src, width, height) {
     console.log("初始化")
-    this.image = new Promise((resolve) => {
-      let image = that.data.canvas.createImage()
-      image.src = src
-      image.onload = function() {
-        resolve(image)
-      }      
-    })
+    let image = canvas.createImage()
+    image.src = src
+    this.image = image
     console.log("Base构造", this.image)
     this.width = width
     this.height = height
@@ -26,7 +21,7 @@ export default class Base {
   /**
    * 更新canvas专用
    */
-  render(ctx) {
+  render(ctx, canvas) {
 
   }
 
