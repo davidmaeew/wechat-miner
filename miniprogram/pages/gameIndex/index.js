@@ -14,6 +14,10 @@ Page({
     height: 0,
     main: undefined
   },
+  initEvent() {
+    console.log("点击")
+    // this.ctx.
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -43,6 +47,8 @@ Page({
     ctx.scale(dpr, dpr)
     canvas.screenHeight = wx.getSystemInfoSync().windowHeight
     canvas.screenWidth = wx.getSystemInfoSync().windowWidth
+    this.ctx = ctx
+    this.canvas = canvas
 
     let main = new Main(ctx, canvas)
     const renderLoop = () => {
@@ -58,25 +64,6 @@ Page({
    * 在页面初次渲染完成后,设置canvas对象为本页面全局变量
    */
   onReady: function () {
-    this.initData()
-    console.log(this.data.ctx)
-    wx.getSystemInfo({
-      success: function(res) {
-        console.log(res.pixelRatio)
-      }
-    })
-    // setInterval(() => {
-    //   console.log("测试", this.data.ctx, this.data.main)
-    //   if (this.data.ctx != undefined && this.data.main == undefined) {
-    //     this.setData({
-    //       main: new Main(this.data.ctx, this)
-    //     })
-    //   } else if (this.data.ctx != undefined) {
-    //     console.log("render")
-    //     this.data.main.render(this.data.ctx)
-    //   }
-    // }, 1000)
-
   },
 
   /**

@@ -11,15 +11,6 @@ export default class Main {
     this.bg = new Background(canvas)
     this.miner = new Miner(canvas)
     this.hook = new Hook(canvas)
-    this.initEvent(canvas)
-  }
-  initEvent(canvas) {
-  //   this.canvas.addEventListener("touchend", ((e) => {
-  //     e.preventDefault()
-  //     // databus.status = 1
-  //     console.log("老人收🐕")
-  //     this.touched = true
-  // }))
   }
 
   update() {
