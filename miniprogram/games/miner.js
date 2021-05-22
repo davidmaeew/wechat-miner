@@ -5,11 +5,10 @@ const IMAGE_MINER_WIDHT = 64
 const IMAGE_MINER_HEIGHT = 58
 
 export default class Miner extends Base {
-  constructor(ctx, canvas) {
+  constructor(canvas) {
     super(canvas,IMAGE_MINER_SRC, IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT)
     this.screenHeight = canvas.screenHeight
     this.screenWidth = canvas.screenWidth
-    this.ctx = ctx
   }
   update() {
 

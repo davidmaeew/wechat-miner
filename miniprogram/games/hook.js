@@ -11,7 +11,7 @@ const MIN_ANGLE_NUM = 1
 const MIN_ROPE_LENGTH = 30
 
 export default class Miner extends Base {
-  constructor(ctx, canvas) {
+  constructor(canvas) {
     super(canvas,IMAGE_MINER_SRC, HOOK_WIDTH, HOOK_HEIGHT)
     this.screenHeight = canvas.screenHeight
     this.screenWidth = canvas.screenWidth
@@ -19,7 +19,6 @@ export default class Miner extends Base {
     this.angleFlag = true
     this.length = MIN_ROPE_LENGTH
     this.angle = Math.PI * this.angleNum / 180
-    this.ctx = ctx
   }
   ropeLengthUpdate() {
     let x = this.screenWidth/2 - this.length * Math.cos(this.angle)
