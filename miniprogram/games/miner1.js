@@ -1,6 +1,5 @@
-import Base from './base'
 
-const IMAGE_MINER_SRC = "../../images/"
+const IMAGE_MINER_SRC = "../../images/miner1.png"
 const IMAGE_MINER_WIDHT = 100
 const IMAGE_MINER_HEIGHT = 92
 const FRAME_TIME = 20
@@ -22,39 +21,20 @@ class MImage {
   }
 }
 
-
 export default class Miner  {
   constructor(ctx, canvas) {
     this.showImage = []
-    this.showImage.push(new MImage(canvas, IMAGE_MINER_SRC + "miner.png", IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
-    this.framesPool = {} // 不同状态对应的帧内容池
+    this.showImage.push(new MImage(canvas, IMAGE_MINER_SRC, IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
     this.frameTime = FRAME_TIME // 每帧绘制次数
     this.frameIndex = 0 // 绘制帧图像下标
+
     this.screenHeight = canvas.screenHeight
     this.screenWidth = canvas.screenWidth
     this.ctx = ctx
-    this.initFramesPool()
-  }
-  initFramesPool() {
-    // 钩子摇摆准备放下时任务状态
-    this.framesPool[0] = this.showImage
-
-    // 放下钩子帧数组
-    takeHook = []
-    takeHook.push(new MImage(canvas, IMAGE_MINER_SRC + "miner1.png", IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
-    this.framesPool[1] = takeHook
-
-    // 收起钩子帧数组
-    getHook = []
-    for (let i = 0; i < 2; i++) {
-      getHook.push(new MImage(canvas, IMAGE_MINER_SRC + `miner-dig-${i}.png`, IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
-    }
-    this.framesPool[2] = getHook
   }
   update() {
-    
-  }
 
+  }
   getFrameImageIndex() {
     if (this.frameTime <= 0) {
       this.frameIndex = (this.frameIndex + 1) % this.showImage.length
@@ -67,6 +47,7 @@ export default class Miner  {
   render(ctx, canvas) {
     let index = this.getFrameImageIndex()
     let mImage = this.showImage[index]
-    ctx.drawImage(mImage.image, this.screenWidth / 2 - mImage.width / 2, this.screenHeight / 4 - mImage.height - 30, mImage.width, mImage.height)
+    console.log(mImage.image)
+    ctx.drawImage(mImage.image, this.screenWidth / 2 - this.width / 2, this.screenHeight / 4 - mImage.height - 30, mImage.width, mImage.height)
   }
 }

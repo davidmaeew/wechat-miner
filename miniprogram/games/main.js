@@ -25,13 +25,13 @@ export default class Main {
     // 当值为1时， 钩子伸长状态
     // 当值为2时， 钩子缩短状态
     databus.hookStatus = 0 
+    databus.minerStatus = 0
     console.log("初始化全局变量", this.ctx)
   }
 
   render(ctx, canvas) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     this.bg.render(ctx, canvas)
-    console.log("画图")
     this.miner.render(ctx, canvas)
     this.hook.render(ctx, canvas)
   }
