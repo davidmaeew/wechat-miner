@@ -25,16 +25,17 @@ export default class Miner extends Base {
     let x = this.screenWidth/2 - this.length * Math.cos(this.angle)
     let y = this.screenHeight/5 - 10 + this.length * Math.sin(this.angle)
     if (x <= 0 || x >= this.screenWidth) {
-        console.log("从而产生")
         databus.hookStatus = 2
+        databus.minerStatus = 2
     }
     if (y >= this.screenHeight) {
-        console.log("从而产生2")
         databus.hookStatus = 2
+        databus.minerStatus = 2
     }
     if (this.length < MIN_ROPE_LENGTH) {
         this.length = MIN_ROPE_LENGTH
         databus.hookStatus = 0
+        databus.minerStatus = 0
     }
     if (databus.hookStatus == 1) {
         this.length += 5

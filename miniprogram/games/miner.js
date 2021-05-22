@@ -1,9 +1,11 @@
 import Base from './base'
+import Databus from './databus'
 
 const IMAGE_MINER_SRC = "../../images/"
 const IMAGE_MINER_WIDHT = 100
 const IMAGE_MINER_HEIGHT = 92
 const FRAME_TIME = 20
+const databus = new Databus()
 
 class MImage {
   constructor(canvas, src, width, height) {
@@ -32,27 +34,34 @@ export default class Miner  {
     this.frameIndex = 0 // 绘制帧图像下标
     this.screenHeight = canvas.screenHeight
     this.screenWidth = canvas.screenWidth
+    this.minerStatus = 0
     this.ctx = ctx
-    this.initFramesPool()
+    this.initFramesPool(canvas)
   }
-  initFramesPool() {
+  initFramesPool(canvas) {
     // 钩子摇摆准备放下时任务状态
     this.framesPool[0] = this.showImage
 
     // 放下钩子帧数组
-    takeHook = []
+    let takeHook = []
     takeHook.push(new MImage(canvas, IMAGE_MINER_SRC + "miner1.png", IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
     this.framesPool[1] = takeHook
 
     // 收起钩子帧数组
-    getHook = []
+    let getHook = []
     for (let i = 0; i < 2; i++) {
       getHook.push(new MImage(canvas, IMAGE_MINER_SRC + `miner-dig-${i}.png`, IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
     }
     this.framesPool[2] = getHook
   }
   update() {
-    
+    if (this.minerStatus != databus.minerStatus) {
+      this.showImage = this.framesPool[databus.minerStatus]
+      this.frameIndex = 0
+      this.frameTime = FRAME_TIME
+      this.minerStatus = databus.minerStatus
+    }
+
   }
 
   getFrameImageIndex() {
@@ -60,13 +69,14 @@ export default class Miner  {
       this.frameIndex = (this.frameIndex + 1) % this.showImage.length
       this.frameTime = FRAME_TIME
     } else {
-      this.frameTime--
+      this.frameTime = this.frameTime - 1
     }
     return this.frameIndex
   }
   render(ctx, canvas) {
     let index = this.getFrameImageIndex()
     let mImage = this.showImage[index]
+
     ctx.drawImage(mImage.image, this.screenWidth / 2 - mImage.width / 2, this.screenHeight / 4 - mImage.height - 30, mImage.width, mImage.height)
   }
 }
