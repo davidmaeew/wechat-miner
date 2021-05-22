@@ -27,6 +27,5 @@ export default class Base {
    * 测试方法
    */
   show() {
-    console.log("test")
   }
 }

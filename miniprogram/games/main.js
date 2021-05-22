@@ -17,6 +17,7 @@ export default class Main {
 
   update() {
     this.hook.update()
+    this.miner.update()
   }
   init() {
     // 老人钩子状态， 
@@ -24,7 +25,7 @@ export default class Main {
     // 当值为1时， 钩子伸长状态
     // 当值为2时， 钩子缩短状态
     databus.hookStatus = 0 
-    console.log("初始化全局变量", this.ctx)
+    databus.minerStatus = 0
   }
 
   showGold(ctx, canvas, prize1Array) {

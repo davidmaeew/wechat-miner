@@ -23,8 +23,9 @@ Page({
     if (databus.hookStatus == 0) {
       console.log("设置值")
       databus.hookStatus = 1
+      databus.minerStatus = 1
     }
-
+    // this.ctx.
   },
 
   /**
