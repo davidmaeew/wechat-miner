@@ -1,6 +1,7 @@
 // pages/chooseLib/chooseLib.js
 
 import Main from '../../games/main'
+import Gold, { IMAGE_BG_WIDHT, IMAGE_BG_HEIGHT } from '../../games/gold'
 
 Page({
 
@@ -50,35 +51,53 @@ Page({
     this.canvas = canvas
 
     let main = new Main(ctx, canvas)
+    // 数据初始化,在父级一次性初始化完成
     let prize1Array = [];
 
     function initPrize1() {
       const prize1Num = 3 // 一等奖数量为3，大奖分布区域为-1\5，比例固定为1
+      const area = 0.2
+      const goldW = IMAGE_BG_WIDHT
+      const goldY = IMAGE_BG_HEIGHT
+      const offSetX = goldW + 10
+      const offSetY = 8
       // 生成一等奖渲染初始点数组
       let xArr = []
       let yArr = []
 
-      for (let i = 0; i < canvas.screenWidth; i = i + 80) {
+      for (let i = 0; i < canvas.screenWidth; i = i + offSetX) {
+        if (i + goldW > canvas.screenWidth) {
+          // 去除边界条件
+          break
+        }
         xArr.push(i)
       }
-      for (let i = 0; i < canvas.screenHeight; i = i + 60) {
+
+      for (let i = 0; i < canvas.screenHeight * area; i = i + offSetY) {
+        if (i + goldY > canvas.screenHeight * area) {
+          // 去除边界条件
+          break
+        }
         yArr.push(i)
       }
+
       for (let i = 0; i < prize1Num; i++) {
-        const x = Math.round(Math.random() * 10);
-        const y = Math.round(Math.random() * 10);
+        const x = randomArrayPick(xArr)
+        const y = randomArrayPick(yArr)
+
+        xArr.splice(getResetArrayIndex(x, xArr), 1) // 重置数组
         prize1Array.push({
           x: x,
           y: y,
           s: 1
         })
       }
-
-      console.log(randomArrayPick(xArr))
     }
 
-    // 数据初始化,在父级一次性初始化完成
-
+    function getResetArrayIndex(val, array) {
+      const index = array.indexOf(val)
+      return index
+    }
 
     function randomArrayPick(array) {
       const values = array;

@@ -1,16 +1,17 @@
 import Base from './base'
 
 const IMAGE_BG_SRC = "../../images/gold.png"
-const IMAGE_BG_WIDHT = 80
-const IMAGE_BG_HEIGHT = 73
+export const IMAGE_BG_WIDHT = 80
+export const IMAGE_BG_HEIGHT = 73
 
-export default class Background extends Base {
+export default class Gold extends Base {
   constructor(canvas) {
     super(canvas, IMAGE_BG_SRC, IMAGE_BG_WIDHT, IMAGE_BG_HEIGHT)
   }
   update() {
 
   }
+
   render(ctx, canvas, per, w, h) {
     let percent = per
     if (!per) {
