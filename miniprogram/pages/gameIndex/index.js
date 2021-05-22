@@ -1,6 +1,9 @@
 // pages/chooseLib/chooseLib.js
 
 import Main from '../../games/main'
+import Databus from '../../games/databus'
+
+const databus = new Databus()
 
 Page({
 
@@ -16,6 +19,10 @@ Page({
   },
   initEvent() {
     console.log("点击")
+    if (databus.hookStatus == 0) {
+      console.log("设置值")
+      databus.hookStatus = 1
+    }
     // this.ctx.
   },
 
@@ -51,9 +58,9 @@ Page({
     this.canvas = canvas
 
     let main = new Main(ctx, canvas)
+    main.init()
     const renderLoop = () => {
       main.render(ctx, canvas)      
-
       main.update()
       canvas.requestAnimationFrame(renderLoop)
     }
@@ -70,10 +77,7 @@ Page({
    * 初始化屏高/屏宽等参数
    */
   initData: function() {
-    this.setData({
-      width: wx.getSystemInfoSync().windowWidth,
-      height: wx.getSystemInfoSync().windowHeight
-    })
+    
   }, 
 
   /**
