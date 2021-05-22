@@ -2,6 +2,9 @@ import Base from './base'
 import Gold from './gold'
 import Miner from './miner'
 import Hook from './hook'
+import Databus from './databus'
+
+const databus = new Databus()
 
 export default class Main {
   constructor(ctx, canvas) {
@@ -14,6 +17,14 @@ export default class Main {
 
   update() {
     this.hook.update()
+  }
+  init() {
+    // 老人钩子状态， 
+    // 当值为0时， 钩子摇摆状态
+    // 当值为1时， 钩子伸长状态
+    // 当值为2时， 钩子缩短状态
+    databus.hookStatus = 0 
+    console.log("初始化全局变量", this.ctx)
   }
 
   showGold(ctx, canvas, prize1Array) {

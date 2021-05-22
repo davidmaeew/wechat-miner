@@ -2,6 +2,9 @@
 
 import Main from '../../games/main'
 import Gold, { IMAGE_BG_WIDHT, IMAGE_BG_HEIGHT } from '../../games/gold'
+import Databus from '../../games/databus'
+
+const databus = new Databus()
 
 Page({
 
@@ -17,7 +20,11 @@ Page({
   },
   initEvent() {
     console.log("点击")
-    // this.ctx.
+    if (databus.hookStatus == 0) {
+      console.log("设置值")
+      databus.hookStatus = 1
+    }
+
   },
 
   /**
@@ -116,11 +123,12 @@ Page({
       return num
     }
 
+    
     initPrize1() // 执行一等奖初始化函数
 
+    main.init()
     const renderLoop = () => {
-      main.render(ctx, canvas, prize1Array)
-
+      main.render(ctx, canvas, prize1Array)      
       main.update()
       canvas.requestAnimationFrame(renderLoop)
     }
@@ -136,12 +144,9 @@ Page({
   /**
    * 初始化屏高/屏宽等参数
    */
-  initData: function () {
-    this.setData({
-      width: wx.getSystemInfoSync().windowWidth,
-      height: wx.getSystemInfoSync().windowHeight
-    })
-  },
+  initData: function() {
+    
+  }, 
 
   /**
    * 生命周期函数--监听页面显示
