@@ -59,7 +59,10 @@ Page({
       let yArr = []
 
       for (let i = 0; i < canvas.screenWidth; i = i + 80) {
-
+        xArr.push(i)
+      }
+      for (let i = 0; i < canvas.screenHeight; i = i + 60) {
+        yArr.push(i)
       }
       for (let i = 0; i < prize1Num; i++) {
         const x = Math.round(Math.random() * 10);
@@ -70,13 +73,15 @@ Page({
           s: 1
         })
       }
+
+      console.log(randomArrayPick(xArr))
     }
 
     // 数据初始化,在父级一次性初始化完成
 
 
     function randomArrayPick(array) {
-      const values = [1, 2, 3, 4, 5];
+      const values = array;
 
       let num = pickUp(values);
 
@@ -91,8 +96,6 @@ Page({
 
       return num
     }
-
-    console.log(randomArrayPick())
 
     initPrize1() // 执行一等奖初始化函数
 
