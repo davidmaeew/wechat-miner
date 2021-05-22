@@ -1,8 +1,8 @@
 <!--pages/chooseLib/chooseLib.wxml-->
 <view class="container">
+  <image class="background-top" src="../../images/land.png"></image>
   <image class="background" src="./background.png" mode="cover"></image>
   <view class="container">
-  <canvas bindtap="initEvent" type="2d" id="myCanvas"></canvas>
+    <canvas bindtap="initEvent" type="2d" id="myCanvas"></canvas>
   </view>
 </view>
-

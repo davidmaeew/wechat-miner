@@ -66,7 +66,7 @@ export default class Miner extends Base {
   render(ctx, canvas) {
     
     let startX = this.screenWidth/2
-    let startY = this.screenHeight/5 - 10
+    let startY = this.screenHeight/5 - 22
     ctx.save()
     ctx.translate(startX, startY)
     ctx.rotate(this.angle - Math.PI / 2)

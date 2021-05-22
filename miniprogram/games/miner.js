@@ -1,8 +1,8 @@
 import Base from './base'
 
 const IMAGE_MINER_SRC = "../../images/miner1.png"
-const IMAGE_MINER_WIDHT = 100
-const IMAGE_MINER_HEIGHT = 92
+const IMAGE_MINER_WIDHT = 64
+const IMAGE_MINER_HEIGHT = 58
 
 export default class Miner extends Base {
   constructor(canvas) {
@@ -14,6 +14,6 @@ export default class Miner extends Base {
 
   }
   render(ctx, canvas) {
-    ctx.drawImage(this.image, this.screenWidth / 2 - this.width / 2, this.screenHeight / 4 - this.height - 30, this.width, this.height)
+    ctx.drawImage(this.image, this.screenWidth / 2 - this.width / 2 + 15, this.screenHeight / 5 - this.height - 10, this.width, this.height)
   }
 }

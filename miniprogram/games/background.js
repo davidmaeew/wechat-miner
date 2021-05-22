@@ -1,6 +1,6 @@
 import Base from './base'
 
-const IMAGE_BG_SRC = "../../images/head.png"
+const IMAGE_BG_SRC = "../../images/land.png"
 const IMAGE_BG_WIDHT = 550
 const IMAGE_BG_HEIGHT = 133
 

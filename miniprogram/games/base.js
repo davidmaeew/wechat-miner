@@ -2,11 +2,9 @@
 
 export default class Base {
   constructor(canvas, src, width, height) {
-    console.log("初始化")
     let image = canvas.createImage()
     image.src = src
     this.image = image
-    console.log("Base构造", this.image)
     this.width = width
     this.height = height
   }

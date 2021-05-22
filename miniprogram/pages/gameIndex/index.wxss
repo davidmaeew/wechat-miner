@@ -7,29 +7,34 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 100%;
+  height: 100vh;
 }
 
 .container {
-  height: 100%;
-  /* background-image: url(./background.png);
-  background-repeat: no-repeat;
-  background-size: cover; */
+  height: 100vh;
 }
-
-.background {
-  width: 100%;
-  height: 100%;
+.background-top {
+  width: calc((20vh / 140) * 964);
+  height: 20vh;
   position: absolute;
   top: 0;
+  left: -50% + calc((20vh / 140) * 964) / 2;
+  z-index: 2;
+}
+.background {
+  width: 100vw;
+  height: 80vh; 
+  position: absolute;
+  top: 20%;
   left: 0;
+  z-index: 1;
 }
 
 .container {
-  width: 100%;
-  height: 100%; 
+  width: 100vw;
+  height: 100vh; 
 }
 .container #myCanvas {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
