@@ -1,6 +1,8 @@
 import Base from './base'
+// import { randomArrayPick } from './databus'
 
 const IMAGE_BG_SRC = "../../images/gold.png"
+const IMAGE_BG_RE_SRC = "../../images/gold-re.png"
 export const IMAGE_BG_WIDHT = 80
 export const IMAGE_BG_HEIGHT = 73
 

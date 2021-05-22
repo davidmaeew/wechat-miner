@@ -1,8 +1,7 @@
 // pages/chooseLib/chooseLib.js
 
 import Main from '../../games/main'
-import Gold, { IMAGE_BG_WIDHT, IMAGE_BG_HEIGHT } from '../../games/gold'
-import Databus from '../../games/databus'
+import Databus, { prize1, prize2, randomArrayPick } from '../../games/databus'
 
 const databus = new Databus()
 
@@ -61,20 +60,25 @@ Page({
     let main = new Main(ctx, canvas)
     // 数据初始化,在父级一次性初始化完成
     let prize1Array = [];
+    let prize2Array = [];
 
-    function initPrize1() {
-      const prize1Num = 3 // 一等奖数量为3，大奖分布区域为-1\5，比例固定为1
-      const area = 0.2
-      const goldW = IMAGE_BG_WIDHT
-      const goldY = IMAGE_BG_HEIGHT
-      const offSetX = goldW + 10
-      const offSetY = 8
-      // 生成一等奖渲染初始点数组
+    function initPrize(num, area, goldW, goldY, offSetX, offSetY, size) {
+      // 生成奖品渲染初始点数组
+      let resultPosition = []
       let xArr = []
       let yArr = []
+      let X_ARR = [] // 记录原始X数组
+      let Y_ARR = [] // 记录原始Y数组
+      let curSize = 0
 
-      for (let i = 0; i < canvas.screenWidth; i = i + offSetX) {
-        if (i + goldW > canvas.screenWidth) {
+      if (size.length > 1) {
+        curSize = size[1]
+      } else {
+        curSize = size[0]
+      }
+
+      for (let i = 0; i < canvas.screenWidth; i = i + (offSetX * curSize)) {
+        if (i + (goldW * curSize) > canvas.screenWidth) {
           // 去除边界条件
           break
         }
@@ -82,24 +86,66 @@ Page({
       }
 
       for (let i = 0; i < canvas.screenHeight * area; i = i + offSetY) {
-        if (i + goldY > canvas.screenHeight * area) {
+        if (i + (goldY * curSize) > canvas.screenHeight * area) {
           // 去除边界条件
           break
         }
         yArr.push(i)
       }
 
-      for (let i = 0; i < prize1Num; i++) {
+      X_ARR = [...xArr]
+      Y_ARR = [...yArr]
+
+      for (let i = 0; i < num; i++) {
         const x = randomArrayPick(xArr)
         const y = randomArrayPick(yArr)
 
         xArr.splice(getResetArrayIndex(x, xArr), 1) // 重置数组
-        prize1Array.push({
+        yArr.splice(getResetArrayIndex(y, yArr), 1) // 重置数组
+
+        // 为0时还原坐标数组
+        if (xArr.length === 0) {
+          xArr = [...X_ARR]
+        }
+        if (yArr.length === 0) {
+          yArr = [...Y_ARR]
+        }
+
+        const obj = {
           x: x,
           y: y,
-          s: 1
-        })
+          s: size.length > 1 ? randomArrayPick(size) : curSize
+        }
+
+        const resetObj = resetSame(obj, resultPosition, Y_ARR, goldY)
+        resultPosition.push(resetObj)
       }
+
+      return resultPosition
+    }
+
+    function resetSame(val, array, Y_ARR, goldY) {
+      // 去重
+      let flag = 0
+      let newVal = {}
+      for (let i = 0; i < array.length; i++) {
+        // if (array[i].x === val.x && (val.y < array[i].y + goldY * array[i].s || val.y + goldY * val.s > array[i].y)) {
+        //   flag++
+        //   break
+        // }
+        if (array[i].x === val.x && val.y === array[i].y) {
+          flag++
+          break
+        }
+      }
+      if (flag) {
+        newVal = {...val}
+        newVal.y = randomArrayPick(Y_ARR)
+        newVal = resetSame(newVal, array, Y_ARR, goldY)
+        return newVal
+      }
+
+      return val
     }
 
     function getResetArrayIndex(val, array) {
@@ -107,29 +153,13 @@ Page({
       return index
     }
 
-    function randomArrayPick(array) {
-      const values = array;
+    prize1Array = initPrize(prize1.num, prize1.area, prize1.goldW, prize1.goldY, prize1.offSetX, prize1.offSetY, prize1.size)
 
-      let num = pickUp(values);
-
-      function pickUp(values) {
-        var index = randomNumber(0, values.length - 1);
-        return values[index];
-      }
-
-      function randomNumber(lowIndex, highIndex) {
-        return Math.floor(Math.random() * (highIndex - lowIndex + 1) + lowIndex); //选取0到‘数组长度减一’任意一整数
-      }
-
-      return num
-    }
-
-    
-    initPrize1() // 执行一等奖初始化函数
+    prize2Array = initPrize(prize2.num, prize2.area, prize2.goldW, prize2.goldY, prize2.offSetX, prize2.offSetY, prize2.size)
 
     main.init()
     const renderLoop = () => {
-      main.render(ctx, canvas, prize1Array)      
+      main.render(ctx, canvas, prize1Array, prize2Array)
       main.update()
       canvas.requestAnimationFrame(renderLoop)
     }
@@ -145,9 +175,9 @@ Page({
   /**
    * 初始化屏高/屏宽等参数
    */
-  initData: function() {
-    
-  }, 
+  initData: function () {
+
+  },
 
   /**
    * 生命周期函数--监听页面显示

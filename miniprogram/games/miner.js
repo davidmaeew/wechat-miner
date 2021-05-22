@@ -2,8 +2,8 @@ import Base from './base'
 import Databus from './databus'
 
 const IMAGE_MINER_SRC = "../../images/"
-const IMAGE_MINER_WIDHT = 100
-const IMAGE_MINER_HEIGHT = 92
+const IMAGE_MINER_WIDHT = 64
+const IMAGE_MINER_HEIGHT = 58
 const FRAME_TIME = 20
 const databus = new Databus()
 
@@ -77,9 +77,8 @@ export default class Miner  {
   }
   render(ctx, canvas) {
     let index = this.getFrameImageIndex()
-    console.log(this.showImage)
     let mImage = this.showImage[index]
 
-    ctx.drawImage(mImage.image, this.screenWidth / 2 - mImage.width / 2, this.screenHeight / 4 - mImage.height - 30, mImage.width, mImage.height)
+    ctx.drawImage(mImage.image, this.screenWidth / 2 - mImage.width / 2 + 15, this.screenHeight / 5 - mImage.height - 10, mImage.width, mImage.height)
   }
 }
