@@ -10,7 +10,7 @@ const MAX_ANGLE_NUM = 180
 const MIN_ANGLE_NUM = 1
 const MIN_ROPE_LENGTH = 30
 
-export default class Miner extends Base {
+export default class Hook extends Base {
   constructor(canvas) {
     super(canvas,IMAGE_MINER_SRC, HOOK_WIDTH, HOOK_HEIGHT)
     this.screenHeight = canvas.screenHeight
