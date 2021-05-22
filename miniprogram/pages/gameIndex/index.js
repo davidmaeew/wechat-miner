@@ -23,7 +23,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
     // 通过 SelectorQuery 获取 Canvas 节点
     wx.createSelectorQuery()
       .select('#myCanvas')
@@ -37,7 +37,6 @@ Page({
   init(res) {
     const width = res[0].width
     const height = res[0].height
-
     const canvas = res[0].node
     const ctx = canvas.getContext('2d')
 
@@ -51,8 +50,54 @@ Page({
     this.canvas = canvas
 
     let main = new Main(ctx, canvas)
+    let prize1Array = [];
+
+    function initPrize1() {
+      const prize1Num = 3 // 一等奖数量为3，大奖分布区域为-1\5，比例固定为1
+      // 生成一等奖渲染初始点数组
+      let xArr = []
+      let yArr = []
+
+      for (let i = 0; i < canvas.screenWidth; i = i + 80) {
+
+      }
+      for (let i = 0; i < prize1Num; i++) {
+        const x = Math.round(Math.random() * 10);
+        const y = Math.round(Math.random() * 10);
+        prize1Array.push({
+          x: x,
+          y: y,
+          s: 1
+        })
+      }
+    }
+
+    // 数据初始化,在父级一次性初始化完成
+
+
+    function randomArrayPick(array) {
+      const values = [1, 2, 3, 4, 5];
+
+      let num = pickUp(values);
+
+      function pickUp(values) {
+        var index = randomNumber(0, values.length - 1);
+        return values[index];
+      }
+
+      function randomNumber(lowIndex, highIndex) {
+        return Math.floor(Math.random() * (highIndex - lowIndex + 1) + lowIndex); //选取0到‘数组长度减一’任意一整数
+      }
+
+      return num
+    }
+
+    console.log(randomArrayPick())
+
+    initPrize1() // 执行一等奖初始化函数
+
     const renderLoop = () => {
-      main.render(ctx, canvas)      
+      main.render(ctx, canvas, prize1Array)
 
       main.update()
       canvas.requestAnimationFrame(renderLoop)
@@ -69,12 +114,12 @@ Page({
   /**
    * 初始化屏高/屏宽等参数
    */
-  initData: function() {
+  initData: function () {
     this.setData({
       width: wx.getSystemInfoSync().windowWidth,
       height: wx.getSystemInfoSync().windowHeight
     })
-  }, 
+  },
 
   /**
    * 生命周期函数--监听页面显示
