@@ -62,7 +62,7 @@ Page({
     let prize1Array = [];
     let prize2Array = [];
 
-    function initPrize(num, area, goldW, goldY, offSetX, offSetY, size, dNum) {
+    function initPrize(num, area, goldW, goldH, offSetX, offSetY, size, dNum) {
       // 生成奖品渲染初始点数组
       let resultPosition = []
       let xArr = []
@@ -74,7 +74,7 @@ Page({
       let type2Num = 0
 
       if (size.length > 1) {
-        curSize = size[1]
+        curSize = Math.max(size[0], size[1])
       } else {
         curSize = size[0]
         // 大奖分隔
@@ -91,7 +91,7 @@ Page({
       }
 
       for (let i = 0; i < canvas.screenHeight * area; i = i + offSetY) {
-        if (i + (goldY * curSize) > canvas.screenHeight * area) {
+        if (i + (goldH * curSize) > canvas.screenHeight * area) {
           // 去除边界条件
           break
         }
@@ -138,7 +138,7 @@ Page({
           }
         }
 
-        const resetObj = resetSame(obj, resultPosition, Y_ARR, goldY)
+        const resetObj = resetSame(obj, resultPosition, Y_ARR, goldH)
         resultPosition.push(resetObj)
       }
 
@@ -147,7 +147,7 @@ Page({
       return resultPosition
     }
 
-    function resetSame(val, array, Y_ARR, goldY) {
+    function resetSame(val, array, Y_ARR, goldH) {
       // 去重
       let flag = 0
       let newVal = {}
@@ -160,11 +160,16 @@ Page({
           flag++
           break
         }
+
+        if (array[i].x === val.x && Math.abs(val.y - array[i].y)  < Math.max(val.s * goldH, array[i].s * goldH) ) {
+          flag++
+          break
+        }
       }
       if (flag) {
         newVal = {...val}
         newVal.y = randomArrayPick(Y_ARR)
-        newVal = resetSame(newVal, array, Y_ARR, goldY)
+        newVal = resetSame(newVal, array, Y_ARR, goldH)
         return newVal
       }
 
