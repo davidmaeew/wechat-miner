@@ -3,6 +3,7 @@ import { IMAGE_BG_WIDHT, IMAGE_BG_HEIGHT } from './gold'
 let instance
 export const prize1 = {
   num: 3, // 一等奖数量为3，大奖分布区域为0.25，比例固定为1
+  dNum: [1, 2], // 详细分布比例为1、2，加起来需要等于总数量
   area: 0.25,
   size: [1],
   goldW: IMAGE_BG_WIDHT,

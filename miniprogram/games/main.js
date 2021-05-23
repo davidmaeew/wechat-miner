@@ -2,7 +2,9 @@ import Base from './base'
 import Gold from './gold'
 import Miner from './miner'
 import Hook from './hook'
-import Databus, { prize1, prize2, randomArrayPick } from './databus'
+import Prize1Img from './prize1'
+import Prize2Img from './prize2'
+import Databus, { prize1, prize2 } from './databus'
 
 const IMAGE_BG_SRC = "../images/gold.png"
 const IMAGE_BG_RE_SRC = "../images/gold-re.png"
@@ -15,6 +17,8 @@ export default class Main {
     this.miner = new Miner(canvas)
     this.hook = new Hook(canvas)
     this.gold = new Gold(canvas)
+    this.prize1Img = new Prize1Img(canvas)
+    this.prize2Img = new Prize2Img(canvas)
   }
 
   update() {
@@ -44,7 +48,12 @@ export default class Main {
     for (let i = 0; i < prize1Array.length; i++) {
       const x = (prize1StartPoint[0] + prize1Array[i].x)
       const y = prize1StartPoint[1] + prize1Array[i].y
-      this.gold.render(ctx, randomArrayPick[IMAGE_BG_SRC, IMAGE_BG_RE_SRC], prize1Array[i].s, x, y)
+      this.gold.render(ctx, canvas, prize1Array[i].s, x, y)
+      if (prize1Array[i].type === 0) {
+        this.prize1Img.render(ctx, canvas, prize1Array[i].s, x + 15, y + 10)
+      } else {
+        this.prize2Img.render(ctx, canvas, prize1Array[i].s, x + 15, y + 10)
+      }
     }
   }
 

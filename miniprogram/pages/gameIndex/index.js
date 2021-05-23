@@ -62,7 +62,7 @@ Page({
     let prize1Array = [];
     let prize2Array = [];
 
-    function initPrize(num, area, goldW, goldY, offSetX, offSetY, size) {
+    function initPrize(num, area, goldW, goldY, offSetX, offSetY, size, dNum) {
       // 生成奖品渲染初始点数组
       let resultPosition = []
       let xArr = []
@@ -70,11 +70,16 @@ Page({
       let X_ARR = [] // 记录原始X数组
       let Y_ARR = [] // 记录原始Y数组
       let curSize = 0
+      let type1Num = 0
+      let type2Num = 0
 
       if (size.length > 1) {
         curSize = size[1]
       } else {
         curSize = size[0]
+        // 大奖分隔
+        type1Num = dNum[0]
+        type2Num = dNum[1]
       }
 
       for (let i = 0; i < canvas.screenWidth; i = i + (offSetX * curSize)) {
@@ -114,12 +119,30 @@ Page({
         const obj = {
           x: x,
           y: y,
-          s: size.length > 1 ? randomArrayPick(size) : curSize
+          s: size.length > 1 ? randomArrayPick(size) : curSize,
+          type: dNum? dNum.indexOf(randomArrayPick(dNum)) : undefined
+        }
+        // 大奖处理分隔逻辑
+        if (type1Num === 0) {
+          obj.type = 1
+        }
+        if (type2Num === 0) {
+          obj.type = 0
+        }
+
+        if (obj.dNum) {
+          if (obj.type === 0) {
+            type1Num --
+          } else {
+            type2Num --
+          }
         }
 
         const resetObj = resetSame(obj, resultPosition, Y_ARR, goldY)
         resultPosition.push(resetObj)
       }
+
+      console.log(resultPosition)
 
       return resultPosition
     }
@@ -153,7 +176,7 @@ Page({
       return index
     }
 
-    prize1Array = initPrize(prize1.num, prize1.area, prize1.goldW, prize1.goldY, prize1.offSetX, prize1.offSetY, prize1.size)
+    prize1Array = initPrize(prize1.num, prize1.area, prize1.goldW, prize1.goldY, prize1.offSetX, prize1.offSetY, prize1.size, prize1.dNum)
 
     prize2Array = initPrize(prize2.num, prize2.area, prize2.goldW, prize2.goldY, prize2.offSetX, prize2.offSetY, prize2.size)
 

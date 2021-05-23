@@ -1,14 +1,14 @@
 import Base from './base'
 // import { randomArrayPick } from './databus'
 
-const IMAGE_BG_SRC = "../../images/gold.png"
+const PRIZE_2 = "../../images/prize1.png"
 // const IMAGE_BG_RE_SRC = "../../images/gold-re.png"
-export const IMAGE_BG_WIDHT = 80
-export const IMAGE_BG_HEIGHT = 73
+export const IMAGE_BG_WIDHT = 50
+export const IMAGE_BG_HEIGHT = 50
 
-export default class Gold extends Base {
+export default class Prize extends Base {
   constructor(canvas) {
-    super(canvas, IMAGE_BG_SRC, IMAGE_BG_WIDHT, IMAGE_BG_HEIGHT)
+    super(canvas, PRIZE_2, IMAGE_BG_WIDHT, IMAGE_BG_HEIGHT)
   }
   update() {
 
