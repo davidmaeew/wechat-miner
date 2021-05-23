@@ -123,14 +123,14 @@ Page({
           type: dNum? dNum.indexOf(randomArrayPick(dNum)) : undefined
         }
         // 大奖处理分隔逻辑
-        if (type1Num === 0) {
+        if (dNum && type1Num === 0) {
           obj.type = 1
         }
-        if (type2Num === 0) {
+        if (dNum && type2Num === 0) {
           obj.type = 0
         }
 
-        if (obj.dNum) {
+        if (dNum) {
           if (obj.type === 0) {
             type1Num --
           } else {
