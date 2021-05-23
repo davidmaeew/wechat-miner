@@ -36,7 +36,6 @@ export default class Miner  {
     this.screenWidth = canvas.screenWidth
     this.minerStatus = 0
     this.initFramesPool(canvas)
-    console.log(this.showImage)
   }
   initFramesPool(canvas) {
     // 钩子摇摆准备放下时任务状态

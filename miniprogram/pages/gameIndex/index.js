@@ -20,11 +20,10 @@ Page({
   initEvent() {
     console.log("点击")
     if (databus.hookStatus == 0) {
-      console.log("设置值")
+      console.log("钩子伸长")
       databus.hookStatus = 1
       databus.minerStatus = 1
     }
-    // this.ctx.
   },
 
   /**
@@ -142,8 +141,6 @@ Page({
         resultPosition.push(resetObj)
       }
 
-      console.log(resultPosition)
-
       return resultPosition
     }
 
@@ -152,10 +149,6 @@ Page({
       let flag = 0
       let newVal = {}
       for (let i = 0; i < array.length; i++) {
-        // if (array[i].x === val.x && (val.y < array[i].y + goldY * array[i].s || val.y + goldY * val.s > array[i].y)) {
-        //   flag++
-        //   break
-        // }
         if (array[i].x === val.x && val.y === array[i].y) {
           flag++
           break
@@ -181,9 +174,13 @@ Page({
       return index
     }
 
-    prize1Array = initPrize(prize1.num, prize1.area, prize1.goldW, prize1.goldY, prize1.offSetX, prize1.offSetY, prize1.size, prize1.dNum)
+    prize1Array = initPrize(prize1.num, prize1.area, prize1.goldW, prize1.goldH, prize1.offSetX, prize1.offSetY, prize1.size, prize1.dNum)
 
-    prize2Array = initPrize(prize2.num, prize2.area, prize2.goldW, prize2.goldY, prize2.offSetX, prize2.offSetY, prize2.size)
+    prize2Array = initPrize(prize2.num, prize2.area, prize2.goldW, prize2.goldH, prize2.offSetX, prize2.offSetY, prize2.size)
+
+    // 更新全局网格变量函数
+    databus.prize1Array = prize1Array
+    databus.prize2Array = prize2Array
 
     main.init()
     const renderLoop = () => {

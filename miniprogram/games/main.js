@@ -4,10 +4,10 @@ import Miner from './miner'
 import Hook from './hook'
 import Prize1Img from './prize1'
 import Prize2Img from './prize2'
-import Databus, { prize1, prize2 } from './databus'
+import Databus, { prize1, prize2, borderOffset } from './databus'
 
-const IMAGE_BG_SRC = "../images/gold.png"
-const IMAGE_BG_RE_SRC = "../images/gold-re.png"
+// const IMAGE_BG_SRC = "../images/gold.png"
+// const IMAGE_BG_RE_SRC = "../images/gold-re.png"
 const databus = new Databus()
 
 export default class Main {
@@ -36,17 +36,17 @@ export default class Main {
 
   showGold(ctx, canvas, prize1Array, prize2Array) {
     // 其他奖显示逻辑
-    const prize2StartPoint = [10, canvas.screenHeight * (1 - prize1.area - prize2.area)]
+    const prize2StartPoint = [borderOffset, canvas.screenHeight * (1 - prize1.area - prize2.area)]
     for (let i = 0; i < prize2Array.length; i++) {
-      const x = (prize2StartPoint[0] + prize2Array[i].x)
+      const x = prize2StartPoint[0] + prize2Array[i].x
       const y = prize2StartPoint[1] + prize2Array[i].y
       this.gold.render(ctx, canvas, prize2Array[i].s, x, y)
     }
 
     // 大奖显示逻辑
-    const prize1StartPoint = [10, canvas.screenHeight * (1 - prize1.area)]
+    const prize1StartPoint = [borderOffset, canvas.screenHeight * (1 - prize1.area)]
     for (let i = 0; i < prize1Array.length; i++) {
-      const x = (prize1StartPoint[0] + prize1Array[i].x)
+      const x = prize1StartPoint[0] + prize1Array[i].x
       const y = prize1StartPoint[1] + prize1Array[i].y
       this.gold.render(ctx, canvas, prize1Array[i].s, x, y)
       if (prize1Array[i].type === 0) {
