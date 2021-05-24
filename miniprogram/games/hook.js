@@ -25,27 +25,27 @@ export default class Hook extends Base {
         let y = this.screenHeight / 5 - 10 + this.length * Math.sin(this.angle)
 
         // 钩子收回判定
-        const positionArray = databus.prize1Array.concat(databus.prize2Array)
+        // const positionArray = databus.prize1Array.concat(databus.prize2Array)
         const prize2StartPoint = [borderOffset, this.screenHeight * (1 - prize1.area - prize2.area)]
         const render2Array = databus.prize2Array.map(val => {
             return {
                 x: prize2StartPoint[0] + val.x,
                 y: prize2StartPoint[1] + val.y,
-                s: val.s
+                offsetx: goldWOri * val.s,
+                offsety: goldHOri * val.s
             }
         })
         // console.log(render2Array)
         for (let i = 0; i < render2Array.length; i++) {
-            if (render2Array[i].x <= x <= render2Array[i].x + goldWOri * render2Array[i].s
-                &&
-                render2Array[i].y <= y <= render2Array[i].y + goldHOri * render2Array[i].s) {
-                // databus.hookStatus = 2
-                // databus.minerStatus = 2
-                // console.log(1)
-                break
+            const x1Flag = x >= render2Array[i].x ? true : false
+            const x2Flag = x <= render2Array[i].x + render2Array[i].offsetx ? true : false
+            const y1Flag = y >= render2Array[i].y ? true : false
+            const y2Flag = y <= render2Array[i].y + render2Array[i].offsety ? true : false
+            if ((x1Flag && x2Flag) && (y1Flag && y2Flag)) {
+                databus.hookStatus = 2
+                databus.minerStatus = 2
             }
         }
-        // console.log(render2Array)
         if (x <= 0 || x >= this.screenWidth) {
             databus.hookStatus = 2
             databus.minerStatus = 2
@@ -132,5 +132,18 @@ export default class Hook extends Base {
         )
         ctx.restore()
         ctx.restore()
+        // 辅助代码
+        const prize2StartPoint = [borderOffset, this.screenHeight * (1 - prize1.area - prize2.area)]
+        const render2Array = databus.prize2Array.map(val => {
+            return {
+                x: prize2StartPoint[0] + val.x,
+                y: prize2StartPoint[1] + val.y,
+                offsetx: goldWOri * val.s,
+                offsety: goldHOri * val.s
+            }
+        })
+        for (let i = 0; i < render2Array.length; i++) {
+            ctx.fillRect(render2Array[i].x, render2Array[i].y, render2Array[i].offsetx, render2Array[i].offsety)
+        }
     }
 }
