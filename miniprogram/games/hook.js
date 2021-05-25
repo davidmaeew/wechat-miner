@@ -1,5 +1,5 @@
 import Base from './base'
-import Databus, { prize1, prize2, goldWOri, goldHOri, borderOffset } from './databus'
+import Databus, { goldWOri, goldHOri } from './databus'
 
 const databus = new Databus()
 
@@ -23,8 +23,7 @@ export default class Hook extends Base {
     ropeLengthUpdate() {
         let x = this.screenWidth / 2 + this.length * Math.cos(this.angle)
         let y = this.screenHeight / 5 - 10 + this.length * Math.sin(this.angle)
-        // 钩子收回判定
-        const render1Array = databus.prize1Array.map(val => {
+        const positionArray = databus.prizeInfo.map(val => {
             return {
                 x: val.x,
                 y: val.y,
@@ -32,15 +31,6 @@ export default class Hook extends Base {
                 offsety: goldHOri * val.s
             }
         })
-        const render2Array = databus.prize2Array.map(val => {
-            return {
-                x: val.x,
-                y: val.y,
-                offsetx: goldWOri * val.s,
-                offsety: goldHOri * val.s
-            }
-        })
-        const positionArray = render2Array.concat(render1Array)
         for (let i = 0; i < positionArray.length; i++) {
             const x1Flag = x >= positionArray[i].x ? true : false
             const x2Flag = x <= positionArray[i].x + positionArray[i].offsetx ? true : false
@@ -49,6 +39,10 @@ export default class Hook extends Base {
             if ((x1Flag && x2Flag) && (y1Flag && y2Flag)) {
                 databus.hookStatus = 2
                 databus.minerStatus = 2
+                // 拉取效果添加
+                const current = { ...positionArray[i]}
+                current.x = current.x + this.length * Math.sin(this.angle) - 5
+                current.y = current.y + this.length * Math.cos(this.angle) - 5
             }
         }
         if (x <= 0 || x >= this.screenWidth) {
@@ -137,22 +131,5 @@ export default class Hook extends Base {
         )
         ctx.restore()
         ctx.restore()
-        // 辅助代码
-        // const prize2StartPoint = [borderOffset, this.screenHeight * (1 - prize1.area - prize2.area)]
-        // const render2Array = databus.prize2Array.map(val => {
-        //     return {
-        //         x: prize2StartPoint[0] + val.x,
-        //         y: prize2StartPoint[1] + val.y,
-        //         offsetx: goldWOri * val.s,
-        //         offsety: goldHOri * val.s
-        //     }
-        // })
-        // for (let i = 0; i < render2Array.length; i++) {
-        //     ctx.fillRect(render2Array[i].x, render2Array[i].y, render2Array[i].offsetx, render2Array[i].offsety)
-        // }
-
-        // let x = this.screenWidth / 2 - this.length * Math.cos(this.angle)
-        // let y = this.screenHeight / 5 - 10 + this.length * Math.sin(this.angle)
-        // ctx.fillRect(x, y, 1, 1)
     }
 }

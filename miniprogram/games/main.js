@@ -4,7 +4,7 @@ import Miner from './miner'
 import Hook from './hook'
 import Prize1Img from './prize1'
 import Prize2Img from './prize2'
-import Databus, { prize1, prize2, borderOffset } from './databus'
+import Databus from './databus'
 
 // const IMAGE_BG_SRC = "../images/gold.png"
 // const IMAGE_BG_RE_SRC = "../images/gold-re.png"
@@ -34,27 +34,23 @@ export default class Main {
     databus.minerStatus = 0
   }
 
-  showGold(ctx, canvas, prize1Array, prize2Array) {
-    // 其他奖显示逻辑
-    for (let i = 0; i < prize2Array.length; i++) {
-      this.gold.render(ctx, canvas, prize2Array[i].s, prize2Array[i].x, prize2Array[i].y)
-    }
-
-    // 大奖显示逻辑
-    for (let i = 0; i < prize1Array.length; i++) {
-      this.gold.render(ctx, canvas, prize1Array[i].s, prize1Array[i].x, prize1Array[i].y)
-      if (prize1Array[i].type === 0) {
-        this.prize1Img.render(ctx, canvas, prize1Array[i].s, prize1Array[i].x + 15, prize1Array[i].y + 10)
-      } else {
-        this.prize2Img.render(ctx, canvas, prize1Array[i].s, prize1Array[i].x + 15, prize1Array[i].y + 10)
+  showGold(ctx, canvas, prizeInfo) {
+    // 金块渲染逻辑
+    for (let i = 0; i < prizeInfo.length; i++) {
+      this.gold.render(ctx, canvas, prizeInfo[i].s, prizeInfo[i].x, prizeInfo[i].y)
+      // 奖品渲染逻辑
+      if (prizeInfo[i].type === 0) {
+        this.prize1Img.render(ctx, canvas, prizeInfo[i].s, prizeInfo[i].x + 15, prizeInfo[i].y + 10)
+      } else if (prizeInfo[i].type === 1) {
+        this.prize2Img.render(ctx, canvas, prizeInfo[i].s, prizeInfo[i].x + 15, prizeInfo[i].y + 10)
       }
     }
   }
 
-  render(ctx, canvas, prize1Array, prize2Array) {
+  render(ctx, canvas, prizeInfo) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     this.miner.render(ctx, canvas)
     this.hook.render(ctx, canvas)
-    this.showGold(ctx, canvas, prize1Array, prize2Array)
+    this.showGold(ctx, canvas, prizeInfo)
   }
 }

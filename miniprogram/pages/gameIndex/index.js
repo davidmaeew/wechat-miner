@@ -198,12 +198,11 @@ Page({
       }
     })
     // 更新全局网格变量函数
-    databus.prize1Array = prize1Array
-    databus.prize2Array = prize2Array
+    databus.prizeInfo = prize1Array.concat(prize2Array)
 
     main.init()
     const renderLoop = () => {
-      main.render(ctx, canvas, prize1Array, prize2Array)
+      main.render(ctx, canvas, databus.prizeInfo)
       main.update()
       canvas.requestAnimationFrame(renderLoop)
     }
