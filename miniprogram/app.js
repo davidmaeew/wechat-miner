@@ -9,11 +9,22 @@ App({
         //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
         //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
         //   如不填则使用默认环境（第一个创建的环境）
-        // env: 'my-env-id',
+        env: 'cloud1-2gpztsg50ffcc2c1',
         traceUser: true,
+      })
+      const db = wx.cloud.database()
+      const _ = db.command
+      this.globalData = {
+        db: db,
+      }
+      db.collection("prize").where({
+        type: 1,
+      }).get({
+        success: function(res) {
+          console.log("云开发初体验", res.data)
+        }
       })
     }
 
-    this.globalData = {}
   }
 })
