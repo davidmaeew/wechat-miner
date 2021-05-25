@@ -24,7 +24,15 @@ export default class Hook extends Base {
         let x = this.screenWidth / 2 + this.length * Math.cos(this.angle)
         let y = this.screenHeight / 5 - 10 + this.length * Math.sin(this.angle)
         // 钩子收回判定
-        // const positionArray = databus.prize1Array.concat(databus.prize2Array)
+        const prize1StartPoint = [borderOffset, this.screenHeight * (1 - prize1.area)]
+        const render1Array = databus.prize1Array.map(val => {
+            return {
+                x: prize1StartPoint[0] + val.x,
+                y: prize1StartPoint[1] + val.y,
+                offsetx: goldWOri * val.s,
+                offsety: goldHOri * val.s
+            }
+        })
         const prize2StartPoint = [borderOffset, this.screenHeight * (1 - prize1.area - prize2.area)]
         const render2Array = databus.prize2Array.map(val => {
             return {
@@ -34,12 +42,12 @@ export default class Hook extends Base {
                 offsety: goldHOri * val.s
             }
         })
-        // console.log(render2Array)
-        for (let i = 0; i < render2Array.length; i++) {
-            const x1Flag = x >= render2Array[i].x ? true : false
-            const x2Flag = x <= render2Array[i].x + render2Array[i].offsetx ? true : false
-            const y1Flag = y >= render2Array[i].y ? true : false
-            const y2Flag = y <= render2Array[i].y + render2Array[i].offsety ? true : false
+        const positionArray = render2Array.concat(render1Array)
+        for (let i = 0; i < positionArray.length; i++) {
+            const x1Flag = x >= positionArray[i].x ? true : false
+            const x2Flag = x <= positionArray[i].x + positionArray[i].offsetx ? true : false
+            const y1Flag = y >= positionArray[i].y ? true : false
+            const y2Flag = y <= positionArray[i].y + positionArray[i].offsety ? true : false
             if ((x1Flag && x2Flag) && (y1Flag && y2Flag)) {
                 databus.hookStatus = 2
                 databus.minerStatus = 2
