@@ -1,7 +1,7 @@
 // pages/chooseLib/chooseLib.js
 
 import Main from '../../games/main'
-import Databus, { prize1, prize2, randomArrayPick } from '../../games/databus'
+import Databus, { prize1, prize2, randomArrayPick,  borderOffset } from '../../games/databus'
 
 const databus = new Databus()
 
@@ -178,6 +178,25 @@ Page({
 
     prize2Array = initPrize(prize2.num, prize2.area, prize2.goldW, prize2.goldH, prize2.offSetX, prize2.offSetY, prize2.size)
 
+    // 实际渲染坐标生成
+    const prize1StartPoint = [borderOffset, canvas.screenHeight * (1 - prize1.area)]
+    prize1Array = prize1Array.map(val => {
+      return {
+        x: prize1StartPoint[0] + val.x,
+        y: prize1StartPoint[1] + val.y,
+        s: val.s,
+        type: val.type
+      }
+    })
+    const prize2StartPoint = [borderOffset, canvas.screenHeight * (1 - prize1.area - prize2.area)]
+    prize2Array = prize2Array.map(val => {
+      return {
+        x: prize2StartPoint[0] + val.x,
+        y: prize2StartPoint[1] + val.y,
+        s: val.s,
+        type: val.type
+      }
+    })
     // 更新全局网格变量函数
     databus.prize1Array = prize1Array
     databus.prize2Array = prize2Array

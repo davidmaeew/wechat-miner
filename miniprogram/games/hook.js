@@ -17,27 +17,25 @@ export default class Hook extends Base {
         this.screenWidth = canvas.screenWidth
         this.angleNum = 1
         this.angleFlag = true
-        this.length = MIN_ROPE_LENGTH + 20
+        this.length = MIN_ROPE_LENGTH + 30
         this.angle = Math.PI * this.angleNum / 180
     }
     ropeLengthUpdate() {
         let x = this.screenWidth / 2 + this.length * Math.cos(this.angle)
         let y = this.screenHeight / 5 - 10 + this.length * Math.sin(this.angle)
         // 钩子收回判定
-        const prize1StartPoint = [borderOffset, this.screenHeight * (1 - prize1.area)]
         const render1Array = databus.prize1Array.map(val => {
             return {
-                x: prize1StartPoint[0] + val.x,
-                y: prize1StartPoint[1] + val.y,
+                x: val.x,
+                y: val.y,
                 offsetx: goldWOri * val.s,
                 offsety: goldHOri * val.s
             }
         })
-        const prize2StartPoint = [borderOffset, this.screenHeight * (1 - prize1.area - prize2.area)]
         const render2Array = databus.prize2Array.map(val => {
             return {
-                x: prize2StartPoint[0] + val.x,
-                y: prize2StartPoint[1] + val.y,
+                x: val.x,
+                y: val.y,
                 offsetx: goldWOri * val.s,
                 offsety: goldHOri * val.s
             }
