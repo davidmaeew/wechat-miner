@@ -1,6 +1,7 @@
 import Base from './base'
 import Gold from './gold'
 import Miner from './miner'
+import Score from './score'
 import Hook from './hook'
 import Prize1Img from './prize1'
 import Prize2Img from './prize2'
@@ -17,6 +18,7 @@ export default class Main {
     this.miner = new Miner(canvas)
     this.hook = new Hook(canvas)
     this.gold = new Gold(canvas)
+    this.score = new Score(canvas)
     this.prize1Img = new Prize1Img(canvas)
     this.prize2Img = new Prize2Img(canvas)
   }
@@ -47,10 +49,11 @@ export default class Main {
     }
   }
 
-  render(ctx, canvas, prizeInfo) {
+  render(ctx, canvas, databus) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    this.score.render(ctx, canvas, databus.score)
     this.miner.render(ctx, canvas)
     this.hook.render(ctx, canvas)
-    this.showGold(ctx, canvas, prizeInfo)
+    this.showGold(ctx, canvas, databus.prizeInfo)
   }
 }

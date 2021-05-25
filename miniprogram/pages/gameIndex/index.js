@@ -15,8 +15,10 @@ Page({
     ctx: undefined,
     width: 0,
     height: 0,
-    main: undefined
+    main: undefined,
+    score: databus.score
   },
+
   initEvent() {
     console.log("点击")
     if (databus.hookStatus == 0) {
@@ -202,7 +204,7 @@ Page({
 
     main.init()
     const renderLoop = () => {
-      main.render(ctx, canvas, databus.prizeInfo)
+      main.render(ctx, canvas, databus)
       main.update()
       canvas.requestAnimationFrame(renderLoop)
     }

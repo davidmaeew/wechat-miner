@@ -56,6 +56,8 @@ export default class DataBus {
   reset() {
     this.status = 0
     this.prizeInfo = []
+    this.currentIndex = null
+    this.score = 0
   }
 
 
