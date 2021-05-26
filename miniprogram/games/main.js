@@ -1,7 +1,7 @@
-import Base from './base'
 import Gold from './gold'
 import Miner from './miner'
 import Score from './score'
+import Time from './time'
 import Hook from './hook'
 import Prize1Img from './prize1'
 import Prize2Img from './prize2'
@@ -21,6 +21,20 @@ export default class Main {
     this.score = new Score(canvas)
     this.prize1Img = new Prize1Img(canvas)
     this.prize2Img = new Prize2Img(canvas)
+    this.time = new Time(canvas)
+    console.log("构造完成")
+
+  }
+  // main启动定时任务
+  startInterval() {
+    this.intervalId = setInterval(this.intervalTick, 1000, this)
+  }
+  // main清除定时器
+  closeInterval() {
+    clearTimeout(this.intervalId)
+  }
+  intervalTick(that) {
+    that.time.tick()
   }
 
   update() {
@@ -55,5 +69,6 @@ export default class Main {
     this.miner.render(ctx, canvas)
     this.hook.render(ctx, canvas)
     this.showGold(ctx, canvas, databus.prizeInfo)
+    this.time.render(ctx, canvas)
   }
 }

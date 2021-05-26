@@ -59,6 +59,8 @@ Page({
     this.canvas = canvas
 
     let main = new Main(ctx, canvas)
+    this.main = main
+    main.startInterval()
     // 数据初始化,在父级一次性初始化完成
     let prize1Array = [];
     let prize2Array = [];
@@ -235,14 +237,18 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    if (this.main != undefined) {
+      this.main.closeInterval()
+    }
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    if (this.main != undefined) {
+      this.main.closeInterval()
+    }
   },
 
   /**

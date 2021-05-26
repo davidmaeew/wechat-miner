@@ -58,8 +58,8 @@ export default class Hook extends Base {
         // 收回后恢复初始状态
         if (this.length < MIN_ROPE_LENGTH) {
             this.length = MIN_ROPE_LENGTH
-            databus.hookStatus = 0
-            databus.minerStatus = 0
+            databus.hookStatus = 3
+            databus.minerStatus = 3
             // 勾起后回调
             if (databus.currentIndex !== null) {
                 databus.prizeInfo.splice(databus.currentIndex, 1)
@@ -86,7 +86,9 @@ export default class Hook extends Base {
             } else {
                 this.length -= 5
             }
-
+        } else if (databus.hookStatus == 3) {
+            // 矿工兴奋状态
+            return false
         } else {
             return true
         }
