@@ -23,6 +23,10 @@ export default class Time  {
   // 定时器调用方法
   tick() {
     this.Second--
+    if (this.Second <= 0) {
+      this.Second = 0
+      // 像databus发送结束信息
+    }
   }
 
   render(ctx, canvas) {

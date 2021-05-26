@@ -42,7 +42,7 @@ export default class Miner  {
 
     // 拿到东西兴奋动作
     let happyHook = []
-    happyHook.push(new MImage(canvas, IMAGE_MINER_SRC + "miner1.png", IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
+    happyHook.push(new MImage(canvas, IMAGE_MINER_SRC + "miner-happy.png", IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
     this.framesPool[3] = happyHook
   }
   update() {
@@ -50,6 +50,7 @@ export default class Miner  {
       // 矿工兴奋结束, 开始工作
       databus.minerStatus = 0
       databus.hookStatus = 0
+      this.happyTime = HAPPY_TIME
     }
     if (this.minerStatus != databus.minerStatus) {
       console.log("update", this.showImage, databus.minerStatus)
