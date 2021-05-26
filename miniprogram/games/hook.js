@@ -9,6 +9,8 @@ const HOOK_HEIGHT = 26
 const MAX_ANGLE_NUM = 180
 const MIN_ANGLE_NUM = 1
 const MIN_ROPE_LENGTH = 30
+const HOOK_HEIGHT_OFFSET = 22 // 钩子纵向偏移量
+const HOOK_LENGTH_OFFSET = 15 // 钩子长度补全偏移量
 
 export default class Hook extends Base {
     constructor(canvas) {
@@ -17,12 +19,12 @@ export default class Hook extends Base {
         this.screenWidth = canvas.screenWidth
         this.angleNum = 1
         this.angleFlag = true
-        this.length = MIN_ROPE_LENGTH + 30
+        this.length = MIN_ROPE_LENGTH
         this.angle = Math.PI * this.angleNum / 180
     }
     ropeLengthUpdate() {
-        let x = this.screenWidth / 2 + this.length * Math.cos(this.angle)
-        let y = this.screenHeight / 5 - 10 + this.length * Math.sin(this.angle)
+        let x = this.screenWidth / 2 + (this.length + HOOK_LENGTH_OFFSET) * Math.cos(this.angle)
+        let y = this.screenHeight / 5 - HOOK_HEIGHT_OFFSET + (this.length + HOOK_LENGTH_OFFSET) * Math.sin(this.angle)
         const positionArray = databus.prizeInfo.map(val => {
             return {
                 x: val.x,
@@ -39,19 +41,18 @@ export default class Hook extends Base {
             if ((x1Flag && x2Flag) && (y1Flag && y2Flag)) {
                 databus.hookStatus = 2
                 databus.minerStatus = 2
-                // 拉取效果添加
-                const current = { ...positionArray[i]}
-                current.x = current.x + this.length * Math.sin(this.angle) - 5
-                current.y = current.y + this.length * Math.cos(this.angle) - 5
+                databus.currentIndex = i
             }
         }
         if (x <= 0 || x >= this.screenWidth) {
             databus.hookStatus = 2
             databus.minerStatus = 2
+            databus.currentIndex = null
         }
         if (y >= this.screenHeight) {
             databus.hookStatus = 2
             databus.minerStatus = 2
+            databus.currentIndex = null
         }
 
         // 收回后恢复初始状态
@@ -59,6 +60,12 @@ export default class Hook extends Base {
             this.length = MIN_ROPE_LENGTH
             databus.hookStatus = 0
             databus.minerStatus = 0
+            // 勾起后回调
+            if (databus.currentIndex !== null) {
+                databus.prizeInfo.splice(databus.currentIndex, 1)
+                databus.currentIndex = null
+                databus.score += 1
+            }
         }
 
         if (databus.hookStatus == 1) {
@@ -66,7 +73,20 @@ export default class Hook extends Base {
             this.length += 5
         } else if (databus.hookStatus == 2) {
             // 钩子回收动画
-            this.length -= 5
+            const speed = 0.5
+            // 拉取效果添加
+            if (databus.currentIndex !== null) {
+                const i = databus.currentIndex
+                const current = { ...databus.prizeInfo[i] }
+                // 以x,y为中心点拉取
+                current.x = x - current.s * goldWOri / 2
+                current.y = y
+                this.length -= speed / current.s
+                databus.prizeInfo.splice(i, 1, current)
+            } else {
+                this.length -= 5
+            }
+
         } else {
             return true
         }
@@ -101,7 +121,7 @@ export default class Hook extends Base {
     render(ctx, canvas) {
 
         let startX = this.screenWidth / 2
-        let startY = this.screenHeight / 5 - 22
+        let startY = this.screenHeight / 5 - HOOK_HEIGHT_OFFSET
         ctx.save()
         ctx.translate(startX, startY)
         ctx.rotate(this.angle - Math.PI / 2)
@@ -131,5 +151,10 @@ export default class Hook extends Base {
         )
         ctx.restore()
         ctx.restore()
+
+        // 辅助工具
+        // let x = this.screenWidth / 2 + (this.length + HOOK_LENGTH_OFFSET) * Math.cos(this.angle)
+        // let y = this.screenHeight / 5 - HOOK_HEIGHT_OFFSET + (this.length + HOOK_LENGTH_OFFSET) * Math.sin(this.angle)
+        // ctx.fillRect(x, y, 2, 2)
     }
 }
