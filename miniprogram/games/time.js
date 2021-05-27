@@ -6,7 +6,7 @@ const databus = new Databus()
 
 export const IMAGE_NUMBER_WIDHT = 48
 export const IMAGE_NUMBER_HEIGHT = 48
-const NUMBER_WIDTH = 20
+const NUMBER_WIDTH = 15
 
 export default class Time  {
   constructor(canvas) {
@@ -30,17 +30,13 @@ export default class Time  {
   }
 
   render(ctx, canvas) {
-    // // let percent = per
-    // // if (!per) {
-    // //   percent = 1
-    // // }
     let second = this.Second
-    ctx.drawImage(this.scoreBG.image, canvas.screenWidth / 30, canvas.screenHeight / 14 - 5, IMAGE_NUMBER_WIDHT * 1.5, IMAGE_NUMBER_HEIGHT * 2 / 3)
+    ctx.drawImage(this.scoreBG.image, canvas.screenWidth / 30, 20, IMAGE_NUMBER_WIDHT * 1.5, IMAGE_NUMBER_HEIGHT * 2 / 3)
     let index = 0
     do {
       let num = second % 10
       // console.log("测试", num)
-      ctx.drawImage(this.imagePool[num].image, canvas.screenWidth / 6 - index * NUMBER_WIDTH - 10, canvas.screenHeight / 14, IMAGE_NUMBER_WIDHT/ 2, IMAGE_NUMBER_HEIGHT/2)
+      ctx.drawImage(this.imagePool[num].image, canvas.screenWidth / 6 - index * NUMBER_WIDTH - 10, 25, IMAGE_NUMBER_WIDHT/ 2, IMAGE_NUMBER_HEIGHT/2)
       index++
       second = Math.floor(second / 10)
     } while(second != 0)

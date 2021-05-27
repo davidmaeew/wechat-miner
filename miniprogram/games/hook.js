@@ -58,13 +58,15 @@ export default class Hook extends Base {
         // 收回后恢复初始状态
         if (this.length < MIN_ROPE_LENGTH) {
             this.length = MIN_ROPE_LENGTH
-            databus.hookStatus = 3
-            databus.minerStatus = 3
+            databus.hookStatus = 0
+            databus.minerStatus = 0
             // 勾起后回调
             if (databus.currentIndex !== null) {
                 databus.prizeInfo.splice(databus.currentIndex, 1)
                 databus.currentIndex = null
                 databus.score += 1
+                databus.hookStatus = 3
+                databus.minerStatus = 3
             }
         }
 
