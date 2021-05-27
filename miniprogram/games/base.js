@@ -1,5 +1,22 @@
 
 
+
+export class MImage {
+  constructor(canvas, src, width, height) {
+
+    let image = canvas.createImage()
+    image.onload = () => {
+      console.log("加载成功")
+    }
+    image.onerror = () => {
+      console.log("加载失败")
+    }
+    image.src = src
+    this.image = image
+    this.width = width
+    this.height = height
+  }
+}
 export default class Base {
   constructor(canvas, src, width, height) {
     let image = canvas.createImage()

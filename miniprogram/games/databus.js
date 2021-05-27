@@ -57,7 +57,8 @@ export default class DataBus {
     this.status = 0
     this.prizeInfo = []
     this.currentIndex = null
-    this.score = 0
+    this.score = 20
+    this.time = 60
   }
 
 

@@ -1,28 +1,14 @@
-import Base from './base'
+import {MImage} from './base'
 import Databus from './databus'
 
 const IMAGE_MINER_SRC = "../../images/"
 const IMAGE_MINER_WIDHT = 64
 const IMAGE_MINER_HEIGHT = 58
 const FRAME_TIME = 20
+const HAPPY_TIME = 20
 const databus = new Databus()
 
-class MImage {
-  constructor(canvas, src, width, height) {
 
-    let image = canvas.createImage()
-    image.onload = () => {
-      console.log("加载成功")
-    }
-    image.onerror = () => {
-      console.log("加载失败")
-    }
-    image.src = src
-    this.image = image
-    this.width = width
-    this.height = height
-  }
-}
 
 
 export default class Miner  {
@@ -35,6 +21,7 @@ export default class Miner  {
     this.screenHeight = canvas.screenHeight
     this.screenWidth = canvas.screenWidth
     this.minerStatus = 0
+    this.happyTime = HAPPY_TIME // 每帧兴奋绘制次数
     this.initFramesPool(canvas)
   }
   initFramesPool(canvas) {
@@ -52,8 +39,19 @@ export default class Miner  {
       getHook.push(new MImage(canvas, IMAGE_MINER_SRC + `miner-dig-${i}.png`, IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
     }
     this.framesPool[2] = getHook
+
+    // 拿到东西兴奋动作
+    let happyHook = []
+    happyHook.push(new MImage(canvas, IMAGE_MINER_SRC + "miner-happy.png", IMAGE_MINER_WIDHT, IMAGE_MINER_HEIGHT))
+    this.framesPool[3] = happyHook
   }
   update() {
+    if (this.minerStatus == 3 && this.happyTime-- <= 0) {
+      // 矿工兴奋结束, 开始工作
+      databus.minerStatus = 0
+      databus.hookStatus = 0
+      this.happyTime = HAPPY_TIME
+    }
     if (this.minerStatus != databus.minerStatus) {
       console.log("update", this.showImage, databus.minerStatus)
       this.showImage = this.framesPool[databus.minerStatus]
