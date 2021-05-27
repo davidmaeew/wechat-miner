@@ -1,10 +1,8 @@
 // pages/chooseLib/chooseLib.js
 
 import Main from '../../games/main'
-import Databus, { randomArrayPick,  borderOffset } from '../../games/databus'
+import Databus, {  randomArrayPick,  borderOffset } from '../../games/databus'
 const app = getApp();
-let prize1 = app.globalData.prize1
-let prize2 = app.globalData.prize2
 const databus = new Databus()
 
 Page({
@@ -46,8 +44,9 @@ Page({
   },
 
   init(res) {
-    prize1 = app.globalData.prize1
-    prize2 = app.globalData.prize2
+    const prize1 = app.globalData.prize1
+    const prize2 = app.globalData.prize2
+    console.log(prize1, prize2, app.globalData)
     const width = res[0].width
     const height = res[0].height
     const canvas = res[0].node
